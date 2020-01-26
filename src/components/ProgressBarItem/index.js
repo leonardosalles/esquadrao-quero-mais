@@ -23,7 +23,7 @@ const ProgressBarItem = ({percent, realizado, orcado}) => {
         <div className={getProgressClass()} style={{ width: percent > 100 ? '100%' : `${percent}%` }}></div>
       </div>
 
-      <span className={globalClasses.orcadoText}>Orçado: {toMonetary(orcado)}</span>
+      <span className={globalClasses.orcadoText}>Meta: {toMonetary(orcado)}</span>
     </>
   )
 }
