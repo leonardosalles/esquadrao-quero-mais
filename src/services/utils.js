@@ -6,6 +6,7 @@ export const toMonetary = (int) => {
   return value.join(',')
 }
 
+
 export const toFixed = value => {
   if (value < 10) {
     return `0${value}`

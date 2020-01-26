@@ -27,6 +27,10 @@ const homeRegionalStyles = makeStyles(theme => ({
             border: 'none'
         }
     },
+    smallFont: {
+      fontSize: 12,
+        color: theme.palette.primary.accentStrongText,
+    },
     header: {
         '& div': {
             color: theme.palette.primary.text,

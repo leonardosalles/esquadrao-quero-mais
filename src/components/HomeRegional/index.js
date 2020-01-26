@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 
+
 import SEO from '../../components/SEO'
 import homeRegionalStyles from '../../styles/home-regional'
 import {Container, Grid, Button} from '@material-ui/core'
@@ -74,7 +75,7 @@ const HomeRegionalPage = ({info}) => {
                         {context => (
                             <Grid container className={classes.header}>
                                 <Grid item xs={12} sm={2}></Grid>
-                                <Grid item xs={12} sm={3}></Grid>
+                                <Grid item xs={12} sm={3}> </Grid>
                                 <Grid item xs={12} sm={2}>
                                     {context.isDark ? <PercentLightIcon /> : <PercentIcon /> }<span>Atingimento</span>
                                 </Grid>
@@ -155,7 +156,15 @@ const HomeRegionalPage = ({info}) => {
                             return (
                                 <Grid container spacing={2} className={classes.dataItem} key={index}>
                                     <Grid item xs={2} className={classes.wrapperItemName}>
-                                        {item.nomeLoja}
+                                        <p>
+                                            {item.nomeLoja} <br />
+                                            <span className={classes.smallFont}>
+                                            {'Rank Região: ' + item.rankRegiao}
+                                            </span> <br />
+                                            <span style={{fontSize:12, color: '#727272'}}>
+                                            {'Rank Rede: ' + item.rankRede}
+                                            </span>
+                                        </p>
                                     </Grid>
 
                                     <Grid item xs={2} className={classes.wrapperItem}>
