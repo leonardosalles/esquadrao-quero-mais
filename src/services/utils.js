@@ -1,5 +1,7 @@
 export const toMonetary = (int) => {
-  const value = int.toFixed(2).split('.')
+  let intInternal = int !== null && int !== undefined ? int : 0
+
+  const value = intInternal.toFixed(2).split('.')
   value[0] = `R$ ${value[0].split(/(?=(?:...)*$)/).join('.')}`
   return value.join(',')
 }

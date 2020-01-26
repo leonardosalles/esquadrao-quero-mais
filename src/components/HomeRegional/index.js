@@ -1,233 +1,215 @@
-import React, { useState, useEffect } from 'react'
+import React, {useState, useEffect} from 'react'
 
 import SEO from '../../components/SEO'
 import homeRegionalStyles from '../../styles/home-regional'
-import { Container, Grid } from '@material-ui/core'
-import { isLoggedIn } from '../../services/auth'
+import {Container, Grid, Button} from '@material-ui/core'
 import globalStyles from '../../styles/global'
-import { toMonetary, toSignalColor } from '../../services/utils'
-import LoadingPage from './loading-page'
 import PaperCard from '../../components/PaperCard'
-import UserPointItem from '../../components/UserPointItem'
+import {isLoggedIn} from '../../services/auth'
+import {toMonetary} from '../../services/utils'
+import CloseIcon from '@material-ui/icons/Close'
+import DoneIcon from '@material-ui/icons/Done'
+import GiftIcon from '../Image/gift'
+import GraphIcon from '../Image/graph'
+import TargetIcon from '../Image/target'
+import PercentIcon from '../Image/percent'
+import LoadingPage from './loading-page'
+import ProgressBarItem from '../ProgressBarItem'
+import {esquadraoContext} from '../../provider'
 
-const SubheaderItem = () => {
-  const classes = homeRegionalStyles()
-
-  return (
-    <>
-      <Grid item xs={5} className={classes.insetTextItem}>
-        <span className={classes.insetText}>META ACUM.</span>
-      </Grid>
-
-      <Grid item xs={5} className={classes.insetTextItem}>
-        <span className={classes.insetText}>REAL</span>
-      </Grid>
-
-      <Grid item xs={2} className={classes.insetTextItem}>
-        <span className={classes.insetText}>%ATING.</span>
-      </Grid>
-    </>
-  )
-}
-
-const StatusCircle = ({percent}) => {
-  const globalClasses = globalStyles()
-
-  const getCircleColor = () => {
-    return toSignalColor(percent, globalClasses.warningCircle, globalClasses.dangerCircle, globalClasses.successCircle)
-  }
-
-  return (
-    <div className={getCircleColor()}></div>
-  )
-}
-
-const ListItem = ({data}) => {
-  const classes = homeRegionalStyles()
-
-  return (
-    <>
-      <Grid item xs={5} className={classes.insetItemValue}>
-        {toMonetary(data.metaAcumulada)}
-      </Grid>
-
-      <Grid item xs={5} className={classes.insetItemValueCentered}>
-        {toMonetary(data.realizado)} <StatusCircle percent={data.percAtingimento} />
-      </Grid>
-
-      <Grid item xs={2} className={classes.insetItemValue}>
-        {data.percAtingimento}%
-      </Grid>
-    </>
-  )
-}
+import GiftLightIcon from '../Image/gift-light'
+import GraphLightIcon from '../Image/graph-light'
+import TargetLightIcon from '../Image/target-light'
+import PercentLightIcon from '../Image/percent-light'
 
 const HomeRegionalPage = ({info}) => {
-  
-  const classes = homeRegionalStyles()
-  const globalClasses = globalStyles()
 
-  const [isLoading, setIsLoading] = useState(true)
-  const [homeInfo, setHomeInfo] = useState({})
+    const globalClasses = globalStyles()
+    const classes = homeRegionalStyles()
 
-  useEffect(() => {
-    setHomeInfo({
-      data: info.data,
-      config: info.config
-    })
+    const [isLoading, setIsLoading] = useState(true)
+    const [homeInfo, setHomeInfo] = useState({})
+    const [filter, setFilter] = useState('M')
 
-    if (info.data) {
-      setIsLoading(false)
+    useEffect(() => {
+        setHomeInfo({
+            data: info.data,
+            config: info.config
+        })
+
+        if (info.data) {
+            setIsLoading(false)
+        }
+    }, [info])
+
+    if (isLoading) {
+        return (
+            <LoadingPage />
+        )
     }
-  }, [info])
 
-  if (isLoading) {
+    if ((!isLoggedIn() && typeof window !== 'undefined') || !info.data) {
+        return null
+    }
+
+    const actualData = filter === 'M' ? 'metasMensais' : 'metasTrimestrais'
+
     return (
-      <LoadingPage />
-    )
-  }
+        <>
+        <SEO title="Início"/>
 
-  if ((!isLoggedIn() && typeof window !== 'undefined')) {
-    return null
-  }
-
-  return(
-    <>
-      <SEO title="Início" />
-      
-      <div className={classes.rootMobile}>
-        <Container maxWidth="xl" className={classes.root}>
-          <Grid container spacing={3}>
-            <Grid item xs={9}>
-              <Grid item xs={12} className={classes.parentHeader}>
-                <Grid container className={classes.header}>
-                  <Grid item xs={1} className={classes.headerInsetItem}></Grid>
-                  <Grid item xs={1} className={classes.headerInsetItem}>CLASSIFICAÇÃO</Grid>
-
-                  {
-                    homeInfo.data.lojas.tabelaDeIndicadores &&
-                    Object.keys(homeInfo.data.lojas.tabelaDeIndicadores).map((key, index) => {
-                      return (<Grid item xs className={classes.headerInsetItem} key={index}>{homeInfo.data.lojas.tabelaDeIndicadores[key]}</Grid>)
-                    })
-                  }
-                </Grid>
-
-                <Grid container className={classes.subheader}>
-                  <Grid item xs={1} className={classes.subheaderInsetItem}>
-                    LOJA
-                  </Grid>
-
-                  <Grid item xs={1} className={classes.subheaderInsetItem}>
-                    <Grid container spacing={2}>
-                      <Grid item xs className={classes.insetTextItem}>
-                        <span className={classes.insetTextCenter}>REDE</span>
-                      </Grid>
-
-                      <Grid item xs className={classes.insetTextItem}>
-                        <span className={classes.insetTextCenter}>REGIÃO</span>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-
-                  {
-                    homeInfo.data.lojas.tabelaDeIndicadores &&
-                    Object.keys(homeInfo.data.lojas.tabelaDeIndicadores).map((item, index) => {
-                      return (
-                        <Grid item xs className={classes.subheaderInsetItem} key={index}>
-                          <SubheaderItem />
-                        </Grid>)
-                    })
-                  }
-                </Grid>
-              </Grid>
-
-              {
-                homeInfo.data &&
-                homeInfo.data.lojas &&
-                homeInfo.data.lojas.indicadores &&
-                homeInfo.data.lojas.indicadores.map((indicador, index) => {
-
-                  return (
-                    <Grid container className={classes.item} key={index}>
-                      <Grid item xs={1} className={classes.insetItemValueFirst}>
-                        {indicador.nomeLoja}
-                      </Grid>
-
-                      <Grid item xs={1} className={classes.insetItem}>
-                        <Grid container spacing={2}>
-                          <Grid item xs className={classes.insetItemValueCenter}>
-                            {indicador.rankRede}
-                          </Grid>
-
-                          <Grid item xs className={classes.insetItemValueCenter}>
-                            {indicador.rankRegiao}
-                          </Grid>
-                        </Grid>
-                      </Grid>
-
-                      {
-                        homeInfo.data.lojas.tabelaDeIndicadores &&
-                        Object.keys(homeInfo.data.lojas.tabelaDeIndicadores).map((key, index) => {
-                          const item = indicador[key]
-
-                          return (
-                              <Grid item xs className={classes.insetItem} key={index}>
-                                <Grid container spacing={2}>
-                                  <ListItem data={item} />
-                                </Grid>
-                              </Grid>
-                          )
-                        })
-                      }
-                    </Grid>
-                  )
-                })
-              }
-
-              <Grid container className={classes.subheader}>
-                <Grid item xs={1} className={classes.subheaderInsetItem}></Grid>
-                <Grid item xs={1} className={classes.subheaderInsetItem}></Grid>
-
-                {
-                  homeInfo.data.lojas.tabelaDeIndicadores &&
-                  Object.keys(homeInfo.data.lojas.tabelaDeIndicadores).map((item, index) => {
-                    return (<Grid item xs className={classes.subheaderInsetItem} key={index}></Grid>)
-                  })
-                }
-              </Grid>
-            </Grid>
-
-            <Grid item xs={3}>
-              <div className={classes.normalizedCard}>
+        <div className={classes.rootMobile}>
+            <Container>
                 <PaperCard>
-                  <span className={globalClasses.cardTitle}>Top 5 na Rede</span>
-                  
-                  {
-                    homeInfo.data &&
-                    homeInfo.data.lojas &&
-                    homeInfo.data.lojas.regioesMaisClassificadas ?
-                      homeInfo.data.lojas.regioesMaisClassificadas.map((item, index) => {
-                        return (
-                          <UserPointItem
-                            key={index}
-                            index={index}
-                            medal={false}
-                            height={55}
-                            username={item.nomeRegiao}
-                          />
-                        )
-                      })
-                    :
-                      null
-                  }
+                    <div className={classes.filterWrapper}>
+                        <Button variant="contained"
+                                className={filter === 'M' ? classes.buttonFilterActive : classes.buttonFilter}
+                                onClick={() => setFilter('M')}>Mensal</Button>
+                        <Button variant="contained"
+                                className={filter === 'T' ? classes.buttonFilterActive : classes.buttonFilter}
+                                onClick={() => setFilter('T')}>Trimestral</Button>
+                    </div>
+
+                    <esquadraoContext.Consumer>
+                        {context => (
+                            <Grid container className={classes.header}>
+                                <Grid item xs={12} sm={2}></Grid>
+                                <Grid item xs={12} sm={3}></Grid>
+                                <Grid item xs={12} sm={2}>
+                                    {context.isDark ? <PercentLightIcon /> : <PercentIcon /> }<span>Atingimento</span>
+                                </Grid>
+                                <Grid item xs={12} sm={2}>
+                                    {context.isDark ? <GraphLightIcon /> : <GraphIcon /> }<span>Recuperar</span>
+                                </Grid>
+                                <Grid item xs={12} sm={2}>
+                                    {context.isDark ? <TargetLightIcon /> : <TargetIcon /> }<span>Meta</span>
+                                </Grid>
+
+                            </Grid>
+                        )}
+                    </esquadraoContext.Consumer>
+
+                    {
+                        homeInfo.data &&
+                        homeInfo.data.kpisRegiao &&
+                        homeInfo.data.kpisRegiao.data &&
+                        homeInfo.data.kpisRegiao.data.map((item, index) => {
+                            return (
+                                <Grid container spacing={1} key={index} className={classes.dataItem}>
+                                    <Grid item xs={2} className={classes.wrapperItem}>{item.indicador}</Grid>
+
+                                    <Grid item xs={3} className={classes.wrapperItem}>
+                                        <ProgressBarItem
+                                            percent={item.atingimento}
+                                            realizado={item.realizado}
+                                            orcado={item.orcado}
+                                        />
+                                    </Grid>
+
+                                    <Grid item xs={2} className={classes.wrapperItemPill}>
+                                        <div className={globalClasses.pill}>
+                                            {item.atingimento}%
+                                        </div>
+                                    </Grid>
+
+                                    <Grid item xs={2} className={classes.wrapperItemPill}>
+                                        <div
+                                            className={item.recuperar <= 0 ? globalClasses.successPill : globalClasses.dangerPill}>
+                                            {toMonetary(item.recuperar)}
+                                        </div>
+                                    </Grid>
+
+                                    <Grid item xs={2} className={classes.wrapperItemPill}>
+                                        <div className={globalClasses.pill}>
+                                            {toMonetary(item.meta)}
+                                        </div>
+                                    </Grid>
+
+                                </Grid>
+                            )
+                        })
+                    }
                 </PaperCard>
-              </div>
-            </Grid>
-          </Grid>
-        </Container>
-      </div>
-    </>
-  )
+
+                <PaperCard>
+                    <span className={globalClasses.cardTitle}>Visão por filial</span>
+
+                    <Grid container sapcing={2} className={classes.header}>
+                        <Grid item xs={2}></Grid>
+
+                        <Grid item xs={2}>Venda Mercantil</Grid>
+
+                        <Grid item xs={2}>Empréstimo Pessoal</Grid>
+
+                        <Grid item xs={2}>Garantia</Grid>
+
+                        <Grid item xs={2}>SPP</Grid>
+
+                        <Grid item xs={2}>Mifa Vencido</Grid>
+                    </Grid>
+                    {
+                        homeInfo.data &&
+                        homeInfo.data.filiais &&
+                        homeInfo.data.filiais.indicadores &&
+                        homeInfo.data.filiais.indicadores.map((item, index) => {
+                            return (
+                                <Grid container spacing={2} className={classes.dataItem} key={index}>
+                                    <Grid item xs={2} className={classes.wrapperItemName}>
+                                        {item.nomeLoja}
+                                    </Grid>
+
+                                    <Grid item xs={2} className={classes.wrapperItem}>
+                                        <ProgressBarItem
+                                            percent={item.vendaMercantil.percAtingimento}
+                                            realizado={item.vendaMercantil.realizado}
+                                            orcado={item.vendaMercantil.orcado}
+                                        />
+                                    </Grid>
+
+                                    <Grid item xs={2} className={classes.wrapperItem}>
+                                        <ProgressBarItem
+                                            percent={item.vendaEp.percAtingimento}
+                                            realizado={item.vendaEp.realizado}
+                                            orcado={item.vendaEp.metaAcumulada}
+                                        />
+                                    </Grid>
+
+                                    <Grid item xs={2} className={classes.wrapperItem}>
+                                        <ProgressBarItem
+                                            percent={item.vendaGarantia.percAtingimento}
+                                            realizado={item.vendaGarantia.realizado}
+                                            orcado={item.vendaGarantia.metaAcumulada}
+                                        />
+                                    </Grid>
+
+                                    <Grid item xs={2} className={classes.wrapperItem}>
+                                        <ProgressBarItem
+                                            percent={item.vendaSpp.percAtingimento}
+                                            realizado={item.vendaSpp.realizado}
+                                            orcado={item.vendaSpp.metaAcumulada}
+                                        />
+                                    </Grid>
+
+                                    <Grid item xs={2} className={classes.wrapperItem}>
+                                        <ProgressBarItem
+                                            percent={item.mifa.percAtingimento}
+                                            realizado={item.mifa.realizado}
+                                            orcado={item.mifa.metaAcumulada}
+                                        />
+                                    </Grid>
+
+                                    <Grid item xs={1}></Grid>
+                                </Grid>
+                            )
+                        })
+                    }
+                </PaperCard>
+
+                <div className={classes.spacerBottom}></div>
+            </Container>
+        </div>
+        </>
+    )
 }
 
 export default HomeRegionalPage
