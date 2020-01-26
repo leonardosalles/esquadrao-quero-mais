@@ -1,0 +1,54 @@
+{
+  "name": "esquadrao-quero-mais",
+  "private": true,
+  "description": "A Landing Page for Esquadrão Quero Mais",
+  "version": "0.1.0",
+  "author": "Leonardo salles <leosallestm@gmail.com>",
+  "dependencies": {
+    "@material-ui/core": "^4.7.1",
+    "@material-ui/icons": "^4.5.1",
+    "@material-ui/lab": "^4.0.0-alpha.39",
+    "@material-ui/styles": "^4.7.1",
+    "classnames": "^2.2.6",
+    "dotenv": "^8.2.0",
+    "gatsby": "^2.7.5",
+    "gatsby-image": "^2.1.2",
+    "gatsby-plugin-manifest": "^2.1.1",
+    "gatsby-plugin-material-ui": "next",
+    "gatsby-plugin-offline": "^2.1.1",
+    "gatsby-plugin-page-creator": "^2.1.33",
+    "gatsby-plugin-purgecss": "^4.0.1",
+    "gatsby-plugin-react-helmet": "^3.0.12",
+    "gatsby-plugin-sharp": "^2.1.2",
+    "gatsby-source-filesystem": "^2.0.37",
+    "gatsby-transformer-sharp": "^2.1.20",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-helmet": "^5.2.1",
+    "typeface-roboto": "0.0.54"
+  },
+  "devDependencies": {
+    "prettier": "^1.18.2"
+  },
+  "keywords": [
+    "gatsby"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "build": "gatsby build",
+    "build:path": "NODE_ENV=production gatsby build --prefix-paths",
+    "develop": "NODE_ENV=development gatsby develop",
+    "format": "prettier --write src/**/*.{js,jsx}",
+    "start": "NODE_ENV=development npm run develop",
+    "serve": "NODE_ENV=production gatsby serve",
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dominicabela/gatsby-starter-material-ui"
+  },
+  "bugs": {
+    "url": "https://github.com/dominicabela/gatsby-starter-material-ui/issues"
+  }
+}
