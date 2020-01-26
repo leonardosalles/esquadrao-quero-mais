@@ -171,7 +171,7 @@ const HomeRegionalPage = ({info}) => {
                                         <ProgressBarItem
                                             percent={item.vendaMercantil.percAtingimento}
                                             realizado={item.vendaMercantil.realizado}
-                                            orcado={item.vendaMercantil.orcado}
+                                            orcado={item.vendaMercantil.metaAcumulada}
                                         />
                                     </Grid>
 
