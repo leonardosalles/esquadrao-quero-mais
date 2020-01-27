@@ -13,6 +13,7 @@ import { logout, getUser } from '../../services/auth'
 import LogoEsquadraoMini from '../Image/logo-esquadrao-mini'
 import BrightnessHighIcon from '@material-ui/icons/BrightnessHigh'
 import Brightness4Icon from '@material-ui/icons/Brightness4'
+import HomeIcon from '@material-ui/icons/Home'
 import { esquadraoContext } from '../../provider'
 import Profile from '../Profile'
 
@@ -22,6 +23,11 @@ const Header = () => {
 
   const [isOpenMenu, setIsOpenMenu] = React.useState(false)
   const [open, setOpen] = React.useState(false)
+
+  const token = typeof window !== 'undefined' ? window.localStorage.getItem(`${process.env.STORAGE_PREFIX}.sessionToken`) : null
+  const userInfo = getUser()
+  const isMaster = token && userInfo.perspectiva === 'MASTER'
+  const isDetail = typeof window !== 'undefined' ? window.location.pathname.indexOf('detalhe') > -1 : false
 
   const toggleDrawer = isOpen => () => {
     setIsOpenMenu(isOpen)
@@ -95,6 +101,15 @@ const Header = () => {
                     </div>
     
                     <div className={classes.headerRight}>
+                      {
+                        isMaster && isDetail ? 
+                          <Button aria-controls="user-menu" aria-haspopup="true" onClick={() => navigate('/')} className={classes.userButton}>
+                            <HomeIcon />
+                          </Button>
+                        :
+                          null
+                      }
+
                       <Button aria-controls="user-menu" aria-haspopup="true" onClick={() => context.changeTheme()} className={classes.userButton}>
                         {
                           context.isDark ?

@@ -1,29 +1,29 @@
 import React, { useState, useEffect } from 'react'
-
 import SEO from '../../components/SEO'
 import homeStyles from '../../styles/home-master'
 import { Container, Grid, TextField, InputAdornment } from '@material-ui/core'
 import globalStyles from '../../styles/global'
 import PaperCard from '../../components/PaperCard'
-import Skeleton from '@material-ui/lab/Skeleton'
 import SearchIcon from '@material-ui/icons/Search'
 import { isLoggedIn } from '../../services/auth'
 import LogoEsquadraoGrey from '../Image/logo-esquadrao-grey'
 import { getInfo } from '../../services/info'
-import { navigate, Link } from 'gatsby'
+import { Link } from 'gatsby'
+import Loader from '../Loader'
 
 const HomeMasterPage = ({info}) => {
   
-  const globalClasses = globalStyles()
   const classes = homeStyles()
 
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
   const [homeInfo, setHomeInfo] = useState({})
   const [active, setActive] = useState('TUDO')
   const [searchText, setSearchText] = useState('')
 
   const handleSearch = async (event) => {
     event.preventDefault()
+
+    setIsLoading(true)
 
     const response = await getInfo({
       searchText,
@@ -33,14 +33,12 @@ const HomeMasterPage = ({info}) => {
     setHomeInfo({
       data: response.data
     })
+
+    setIsLoading(false)
   }
 
   const handleChange = event => {
     setSearchText(event.target.value)
-  }
-
-  const handleItemClick = item => {
-    navigate('detalhe')
   }
 
   useEffect(() => {
@@ -130,12 +128,19 @@ const HomeMasterPage = ({info}) => {
 
             <div className={classes.wrapperList}>
               {
+                isLoading ?
+                  <Loader />
+                :
+                  null
+              }
+
+              {
                 homeInfo &&
                 homeInfo.data &&
                 homeInfo.data.map((item, index) => {
                   return (
                     <PaperCard key={index} spacing={0}>
-                      <Link className={classes.itemLink} to={`/${item.entityId}/detalhe`}>
+                      <Link className={classes.itemLink} to={`/detalhe/${item.entityId}?perspectiva=${item.perspectiva}`}>
                         <h4 className={classes.title}>{item.titulo}</h4>
                         <p className={classes.subtitle}>{item.subtitulo}</p>
                         <p className={classes.detail}>{item.detalhe}</p>
@@ -147,7 +152,8 @@ const HomeMasterPage = ({info}) => {
 
               {
                 homeInfo &&
-                !homeInfo.data ?
+                !homeInfo.data &&
+                !isLoading ?
                   <div className={classes.imageInfo}>
                     <LogoEsquadraoGrey />
                   </div>

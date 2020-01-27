@@ -42,3 +42,24 @@ export const getInfo = async (data) => {
 
   return await response.json();
 }
+
+export const getInfoDetalhe = async (entityId, perspectiva) => {
+  const user = getUser()
+  const userToken = getUserToken()
+
+  let body = {
+    userId: user.userId,
+    page: getHomePage(user.perspectiva)
+  };
+
+  const response = await fetch(`${process.env.MSB_URL}/esquadraoQueroMais/v1/findDetalhe?perspectiva=${perspectiva}&id=${entityId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'api-token': userToken
+    },
+    body: JSON.stringify(body)
+  });
+
+  return await response.json();
+}

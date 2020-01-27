@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const LoadingPage = () => {
+const Loader = () => {
   const classes = useStyles()
 
   return (
@@ -31,4 +31,4 @@ const LoadingPage = () => {
   )
 }
 
-export default LoadingPage
+export default Loader
