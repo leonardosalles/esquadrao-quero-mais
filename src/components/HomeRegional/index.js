@@ -7,7 +7,7 @@ import {Container, Grid, Button} from '@material-ui/core'
 import globalStyles from '../../styles/global'
 import PaperCard from '../../components/PaperCard'
 import {isLoggedIn} from '../../services/auth'
-import {toMonetary} from '../../services/utils'
+import {toMonetary,normalizePercentage} from '../../services/utils'
 import GraphIcon from '../Image/graph'
 import TargetIcon from '../Image/target'
 import PercentIcon from '../Image/percent'
@@ -110,7 +110,7 @@ const HomeRegionalPage = ({info}) => {
 
                                             <Grid item xs={2} className={classes.wrapperItemPill}>
                                                 <div className={globalClasses.pill}>
-                                                    {item.atingimento}%
+                                                    {normalizePercentage(item.atingimento)}%
                                                 </div>
                                             </Grid>
 
