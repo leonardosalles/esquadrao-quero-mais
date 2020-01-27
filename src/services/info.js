@@ -11,6 +11,10 @@ const getHomePage = key => {
     page = 'homeRegional'
   }
 
+  if (key === 'MASTER') {
+    page = 'homeMaster'
+  }
+
   return page
 }
 
