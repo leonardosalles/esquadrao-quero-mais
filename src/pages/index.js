@@ -24,7 +24,9 @@ const IndexPage = () => {
       })
     }
 
-    fetchData()
+    if (token && userInfo.perspectiva !== 'MASTER') {
+      fetchData()
+    }
   }, [])
 
   if (token && userInfo.perspectiva === 'OPERACIONAL') {

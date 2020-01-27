@@ -6,23 +6,42 @@ const homeStyles = makeStyles(theme => ({
     margin: 0,
     padding: 0,
     overflow: 'hidden',
-    marginTop: 8,
+    marginTop: 14,
 
     '& li': {
       display: 'inline',
 
       '& a': {
-        color: '#506c9e',
         fontSize: 16,
         fontWeight: '500',
         display: 'inline-block',
-        padding: '12px 6px'
+        padding: 6,
+        color: theme.palette.primary.text,
+        borderRadius: 3,
+        cursor: 'pointer'
       }
     }
   },
+  itemLink: {
+    display: 'block',
+    padding: 18,
+    borderRadius: 3,
+    cursor: 'pointer',
+
+    '&:hover': {
+      boxShadow: '0 0 0 2px #2e8ccc',
+    }
+  },
+  activeItemList: {
+    color: '#567fca !important',
+    background: theme.palette.primary.searchPill.background
+  },
+  sarchIcon: {
+    color: theme.palette.primary.text
+  },
   searchInput: {
     '& input': {
-      color: '#fff',
+      color: theme.palette.primary.searchInput.color,
       height: 35,
     }
   },
@@ -31,9 +50,11 @@ const homeStyles = makeStyles(theme => ({
     margin: 0,
     fontSize: 15,
     fontWeight: '500',
+    marginBottom: 6
   },
   subtitle: {
-    color: '#fff',
+    color: theme.palette.primary.text,
+    margin: 0,
     fontSize: 14,
     fontWeight: '500',
   },
@@ -43,6 +64,15 @@ const homeStyles = makeStyles(theme => ({
     marginTop: 6,
     fontSize: 14,
     fontWeight: '500',
+  },
+  wrapperList: {
+    marginTop: 32
+  },
+  imageInfo: {
+    width: '100%',
+    textAlign: 'center',
+    opacity: 0.3,
+    padding: '45px 0'
   },
   '@media only screen and (max-width: 580px)': {
     

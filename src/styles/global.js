@@ -67,6 +67,12 @@ const globalStyles = makeStyles(theme => ({
     backgroundColor: `${theme.palette.primary.cardBackground} !important`,
     transition: '.3s ease-in-out'
   },
+  cardDefaultNone: {
+    boxShadow: '0 14px 28px rgba(0, 0, 0, 0), 0 10px 10px rgba(0, 0, 0, 0.10)',
+    backgroundColor: `${theme.palette.primary.cardBackground} !important`,
+    transition: '.3s ease-in-out',
+    marginTop: 12,
+  },
   pointsTile: {
     position: 'relative',
     color: theme.palette.primary.text,

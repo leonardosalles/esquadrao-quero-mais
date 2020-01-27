@@ -18,9 +18,18 @@ const getHomePage = key => {
   return page
 }
 
-export const getInfo = async () => {
+export const getInfo = async (data) => {
   const user = getUser()
   const userToken = getUserToken()
+
+  let body = {
+    userId: user.userId,
+    page: getHomePage(user.perspectiva)
+  };
+
+  if (data) {
+    body = Object.assign(body, data)
+  }
 
   const response = await fetch(`${process.env.MSB_URL}/esquadraoQueroMais/v1/findDadosHome`, {
     method: 'POST',
@@ -28,10 +37,7 @@ export const getInfo = async () => {
       'Content-Type': 'application/json',
       'api-token': userToken
     },
-    body: JSON.stringify({
-      userId: user.userId,
-      page: getHomePage(user.perspectiva)
-    })
+    body: JSON.stringify(body)
   });
 
   return await response.json();

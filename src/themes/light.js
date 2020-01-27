@@ -26,6 +26,12 @@ const palette = {
         },
         pill: {
             background: '#c2c2c2'
+        },
+        searchPill: {
+            background: ''
+        },
+        searchInput: {
+            color: '#282828'
         }
     },
     secondary: {
