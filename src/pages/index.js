@@ -61,7 +61,10 @@ const IndexPage = () => {
     )
   }
 
-  navigate('/login')
+  if (typeof window !== 'undefined') {
+    navigate('/login')
+  }
+
   return null
 }
 

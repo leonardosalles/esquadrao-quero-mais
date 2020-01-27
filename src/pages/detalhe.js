@@ -66,7 +66,10 @@ const Detalhe = (props) => {
     )
   }
 
-  navigate('/login')
+  if (typeof window !== 'undefined') {
+    navigate('/login')
+  }
+
   return null
 }
 
