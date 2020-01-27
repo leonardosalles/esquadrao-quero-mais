@@ -78,7 +78,7 @@ const HomeGerencialPage = ({info}) => {
                     {context.isDark ? <GraphLightIcon /> : <GraphIcon /> }<span>Recuperar</span>
                   </Grid>
                   <Grid item xs={12} sm={2}>
-                    {context.isDark ? <TargetLightIcon /> : <TargetIcon /> }<span>Meta</span>
+                    {context.isDark ? <TargetLightIcon /> : <TargetIcon /> }<span>Meta Mensal</span>
                   </Grid>
                   <Grid item xs={12} sm={1}>
                     {context.isDark ? <GiftLightIcon /> : <GiftIcon /> }<span>Habilita</span>
