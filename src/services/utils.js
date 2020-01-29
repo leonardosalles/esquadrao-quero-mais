@@ -44,5 +44,5 @@ export const toSignalColor = (percent, yellowClass, redClass, greenClass) => {
 }
 
 export const normalizePercentage = percent => {
-  return parseInt(percent, 10).toFixed(2)
+  return parseFloat(percent, 10).toFixed(2)
 }

@@ -192,6 +192,9 @@ const HomeRegionalPage = ({info}) => {
                                             </span> <br />
                                             <span style={{fontSize: 12, color: '#727272'}}>
                                             {'Rank Rede: ' + item.rankRede}
+                                           </span> <br />
+                                            <span style={{fontSize: 12, color: '#727272'}}>
+                                                {'Atingimento Total: ' +normalizePercentage(item.atingimentoTotal)}%
                                             </span>
                                         </p>
                                     </Grid>
