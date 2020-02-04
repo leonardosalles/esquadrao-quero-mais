@@ -7,7 +7,7 @@ import {Container, Grid, Button} from '@material-ui/core'
 import globalStyles from '../../styles/global'
 import PaperCard from '../../components/PaperCard'
 import {isLoggedIn} from '../../services/auth'
-import {toMonetary,normalizePercentage} from '../../services/utils'
+import {toMonetary, normalizePercentage} from '../../services/utils'
 import GraphIcon from '../Image/graph'
 import TargetIcon from '../Image/target'
 import PercentIcon from '../Image/percent'
@@ -50,7 +50,7 @@ const HomeRegionalPage = ({info}) => {
         return null
     }
 
-    const actualData = filter === 'M' ? 'metasMensais' : 'metasTrimestrais'
+    const actualData = filter === 'M' ? 'mensal' : filter === 'S' ? 'semanal' : 'trimestral'
 
     return (
         <>
@@ -64,8 +64,13 @@ const HomeRegionalPage = ({info}) => {
                         <PaperCard>
                             <div className={classes.filterWrapper}>
                                 <Button variant="contained"
+                                        className={filter === 'S' ? classes.buttonFilterActive : classes.buttonFilter}
+                                        onClick={() => setFilter('S')}>Semanal</Button>
+
+                                <Button variant="contained"
                                         className={filter === 'M' ? classes.buttonFilterActive : classes.buttonFilter}
                                         onClick={() => setFilter('M')}>Mensal</Button>
+
                                 <Button variant="contained"
                                         className={filter === 'T' ? classes.buttonFilterActive : classes.buttonFilter}
                                         onClick={() => setFilter('T')}>Trimestral</Button>
@@ -93,9 +98,10 @@ const HomeRegionalPage = ({info}) => {
 
                             {
                                 homeInfo.data &&
-                                homeInfo.data.kpisRegiao &&
-                                homeInfo.data.kpisRegiao.data &&
-                                homeInfo.data.kpisRegiao.data.map((item, index) => {
+                                homeInfo.data[actualData] &&
+                                homeInfo.data[actualData].kpisRegiao &&
+                                homeInfo.data[actualData].kpisRegiao.data &&
+                                homeInfo.data[actualData].kpisRegiao.data.map((item, index) => {
                                     return (
                                         <Grid container spacing={1} key={index} className={classes.dataItem}>
                                             <Grid item xs={2} className={classes.wrapperItem}>{item.indicador}</Grid>
@@ -105,6 +111,7 @@ const HomeRegionalPage = ({info}) => {
                                                     percent={item.atingimento}
                                                     realizado={item.realizado}
                                                     orcado={item.orcado}
+                                                    orcadoTitle={item.periodo}
                                                 />
                                             </Grid>
 
@@ -132,14 +139,108 @@ const HomeRegionalPage = ({info}) => {
                                 })
                             }
                         </PaperCard>
+
+                        <PaperCard>
+                            <span className={globalClasses.cardTitle}>Visão por filial</span>
+
+                            <Grid container sapcing={2} className={classes.header}>
+                                <Grid item xs={2}></Grid>
+
+                                <Grid item xs={2}>Venda Mercantil</Grid>
+
+                                <Grid item xs={2}>Empréstimo Pessoal</Grid>
+
+                                <Grid item xs={2}>Garantia</Grid>
+
+                                <Grid item xs={2}>SPP</Grid>
+
+                                <Grid item xs={2}>Mifa Vencido</Grid>
+                            </Grid>
+                            {
+                                homeInfo.data &&
+                                homeInfo.data[actualData] &&
+                                homeInfo.data[actualData].filiais &&
+                                homeInfo.data[actualData].filiais.indicadores &&
+                                homeInfo.data[actualData].filiais.indicadores.map((item, index) => {
+                                    return (
+                                        <Grid container spacing={2} className={classes.dataItem} key={index}>
+                                            <Grid item xs={2} className={classes.wrapperItemName}>
+                                                <p>
+                                                    {item.nomeLoja} <br />
+                                                    <span className={classes.smallFont}>
+                                            {'Rank Região: ' + item.rankRegiao}
+                                            </span> <br />
+                                                    <span style={{fontSize: 12, color: '#727272'}}>
+                                            {'Rank Rede: ' + item.rankRede}
+                                           </span> <br />
+                                                    <span style={{fontSize: 12, color: '#727272'}}>
+                                                {'Atingimento Total: ' + normalizePercentage(item.atingimentoTotal)}%
+                                            </span>
+                                                </p>
+                                            </Grid>
+
+                                            <Grid item xs={2} className={classes.wrapperItem}>
+                                                <ProgressBarItem
+                                                    percent={item.vendaMercantil.percAtingimento}
+                                                    realizado={item.vendaMercantil.realizado}
+                                                    orcado={item.vendaMercantil.metaAcumulada}
+                                                    orcadoTitle={item.vendaMercantil.periodo}
+                                                />
+                                            </Grid>
+
+                                            <Grid item xs={2} className={classes.wrapperItem}>
+                                                <ProgressBarItem
+                                                    percent={item.vendaEp.percAtingimento}
+                                                    realizado={item.vendaEp.realizado}
+                                                    orcado={item.vendaEp.metaAcumulada}
+                                                    orcadoTitle={item.vendaEp.periodo}
+                                                />
+                                            </Grid>
+
+                                            <Grid item xs={2} className={classes.wrapperItem}>
+                                                <ProgressBarItem
+                                                    percent={item.vendaGarantia.percAtingimento}
+                                                    realizado={item.vendaGarantia.realizado}
+                                                    orcado={item.vendaGarantia.metaAcumulada}
+                                                    orcadoTitle={item.vendaGarantia.periodo}
+                                                />
+                                            </Grid>
+
+                                            <Grid item xs={2} className={classes.wrapperItem}>
+                                                <ProgressBarItem
+                                                    percent={item.vendaSpp.percAtingimento}
+                                                    realizado={item.vendaSpp.realizado}
+                                                    orcado={item.vendaSpp.metaAcumulada}
+                                                    orcadoTitle={item.vendaSpp.periodo}
+                                                />
+                                            </Grid>
+
+                                            <Grid item xs={2} className={classes.wrapperItem}>
+                                                <ProgressBarItem
+                                                    percent={item.mifa.percAtingimento}
+                                                    realizado={item.mifa.realizado}
+                                                    orcado={item.mifa.metaAcumulada}
+                                                    orcadoTitle={item.mifa.periodo}
+                                                />
+                                            </Grid>
+
+                                            <Grid item xs={1}></Grid>
+                                        </Grid>
+                                    )
+                                })
+                            }
+                        </PaperCard>
+
+
                     </Grid>
                     <Grid item xs={3}>
                         <PaperCard>
-                            <span className={globalClasses.cardTitle}>Top 5 na Rede</span>
+                            <span className={globalClasses.cardTitle}>Classificação</span>
                             {
                                 homeInfo.data &&
-                                homeInfo.data.regioesMaisClassificadas ?
-                                    homeInfo.data.regioesMaisClassificadas.map((item, index) => {
+                                homeInfo.data[actualData] &&
+                                homeInfo.data[actualData].regioesMaisClassificadas ?
+                                    homeInfo.data[actualData].regioesMaisClassificadas.map((item, index) => {
                                         return (
                                             <UserPointItem
                                                 key={index}
@@ -161,90 +262,6 @@ const HomeRegionalPage = ({info}) => {
             </Container>
 
             <Container maxWidth="xl">
-                <PaperCard>
-                    <span className={globalClasses.cardTitle}>Visão por filial</span>
-
-                    <Grid container sapcing={2} className={classes.header}>
-                        <Grid item xs={2}></Grid>
-
-                        <Grid item xs={2}>Venda Mercantil</Grid>
-
-                        <Grid item xs={2}>Empréstimo Pessoal</Grid>
-
-                        <Grid item xs={2}>Garantia</Grid>
-
-                        <Grid item xs={2}>SPP</Grid>
-
-                        <Grid item xs={2}>Mifa Vencido</Grid>
-                    </Grid>
-                    {
-                        homeInfo.data &&
-                        homeInfo.data.filiais &&
-                        homeInfo.data.filiais.indicadores &&
-                        homeInfo.data.filiais.indicadores.map((item, index) => {
-                            return (
-                                <Grid container spacing={2} className={classes.dataItem} key={index}>
-                                    <Grid item xs={2} className={classes.wrapperItemName}>
-                                        <p>
-                                            {item.nomeLoja} <br />
-                                            <span className={classes.smallFont}>
-                                            {'Rank Região: ' + item.rankRegiao}
-                                            </span> <br />
-                                            <span style={{fontSize: 12, color: '#727272'}}>
-                                            {'Rank Rede: ' + item.rankRede}
-                                           </span> <br />
-                                            <span style={{fontSize: 12, color: '#727272'}}>
-                                                {'Atingimento Total: ' +normalizePercentage(item.atingimentoTotal)}%
-                                            </span>
-                                        </p>
-                                    </Grid>
-
-                                    <Grid item xs={2} className={classes.wrapperItem}>
-                                        <ProgressBarItem
-                                            percent={item.vendaMercantil.percAtingimento}
-                                            realizado={item.vendaMercantil.realizado}
-                                            orcado={item.vendaMercantil.metaAcumulada}
-                                        />
-                                    </Grid>
-
-                                    <Grid item xs={2} className={classes.wrapperItem}>
-                                        <ProgressBarItem
-                                            percent={item.vendaEp.percAtingimento}
-                                            realizado={item.vendaEp.realizado}
-                                            orcado={item.vendaEp.metaAcumulada}
-                                        />
-                                    </Grid>
-
-                                    <Grid item xs={2} className={classes.wrapperItem}>
-                                        <ProgressBarItem
-                                            percent={item.vendaGarantia.percAtingimento}
-                                            realizado={item.vendaGarantia.realizado}
-                                            orcado={item.vendaGarantia.metaAcumulada}
-                                        />
-                                    </Grid>
-
-                                    <Grid item xs={2} className={classes.wrapperItem}>
-                                        <ProgressBarItem
-                                            percent={item.vendaSpp.percAtingimento}
-                                            realizado={item.vendaSpp.realizado}
-                                            orcado={item.vendaSpp.metaAcumulada}
-                                        />
-                                    </Grid>
-
-                                    <Grid item xs={2} className={classes.wrapperItem}>
-                                        <ProgressBarItem
-                                            percent={item.mifa.percAtingimento}
-                                            realizado={item.mifa.realizado}
-                                            orcado={item.mifa.metaAcumulada}
-                                        />
-                                    </Grid>
-
-                                    <Grid item xs={1}></Grid>
-                                </Grid>
-                            )
-                        })
-                    }
-                </PaperCard>
             </Container>
         </div>
         </>

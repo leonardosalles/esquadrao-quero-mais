@@ -61,7 +61,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const UserPointItem = ({username, points, medalActive, index, isLoading, medal, height}) => {
+const UserPointItem = ({username, points, medalActive, index, isLoading, medal, height, customText}) => {
   const classes = useStyles()
 
   if (!username) {
@@ -106,6 +106,11 @@ const UserPointItem = ({username, points, medalActive, index, isLoading, medal, 
 
             { points ? <span>{points} cupons</span> : null }
           </Grid>
+
+          <Grid xs={8} sm={9} item >
+            <span>{customText}</span>
+          </Grid>
+
         </Grid>
       )}
     </esquadraoContext.Consumer>
