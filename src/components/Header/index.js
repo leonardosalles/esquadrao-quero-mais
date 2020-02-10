@@ -13,7 +13,7 @@ import {logout, getUser} from '../../services/auth'
 import LogoEsquadraoMini from '../Image/logo-esquadrao-mini'
 import BrightnessHighIcon from '@material-ui/icons/BrightnessHigh'
 import Brightness4Icon from '@material-ui/icons/Brightness4'
-import HomeIcon from '@material-ui/icons/Home'
+import SearchIcon from '@material-ui/icons/Search'
 import DashboardIcon from '@material-ui/icons/Dashboard'
 import {esquadraoContext} from '../../provider'
 import Profile from '../Profile'
@@ -140,11 +140,11 @@ const Header = () => {
                                             }
 
                                             {
-                                                isMaster && isDetail ?
+                                                isMaster ?
                                                     <Button aria-controls="user-menu" aria-haspopup="true"
                                                             onClick={() => navigate('/')}
                                                             className={classes.userButton}>
-                                                        <HomeIcon />
+                                                        <SearchIcon />
                                                     </Button>
                                                     :
                                                     null
