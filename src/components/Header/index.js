@@ -130,7 +130,7 @@ const Header = () => {
                                                         onClose={handleCloseDash}
                                                     >
                                                         <MenuItem
-                                                            onClick={() => navigate('/detalhe?page=DASH_REGIOES')}>
+                                                            onClick={() => navigate('/dashboardRegioes?page=DASH_REGIOES')}>
                                                             Dashboard Regiões
                                                         </MenuItem>
                                                     </Menu>
