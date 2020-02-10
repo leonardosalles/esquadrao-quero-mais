@@ -7,7 +7,7 @@ const progressInset = {
 const pill = theme => ({
   height: 32,
   color: '#fff',
-  padding: '0 18px',
+  padding: '0 10px',
   display: 'inline-flex',
   width: '100%',
   justifyContent: 'center',

@@ -63,3 +63,16 @@ export const getInfoDetalhe = async (entityId, perspectiva) => {
 
   return await response.json();
 }
+
+export const getDadosDashRegioes = async () => {
+    const userToken = getUserToken()
+
+    const response = await fetch(`${process.env.MSB_URL}/esquadraoQueroMais/v1/getDadosDashRegioes`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'api-token': userToken
+        }
+    });
+    return await response.json();
+}

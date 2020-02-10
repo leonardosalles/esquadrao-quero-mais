@@ -301,7 +301,7 @@ const HomeGerencialPage = ({info}) => {
                                             username={item.nmFilial}
                                             customText={
                                                 'Rank Rede: ' + item.rankRede + ' | Rank Região: ' + item.rankRegiao +
-                                                ' | Atingimento = ' + normalizePercentage(item.atingimento) + '%'
+                                                ' | Atingimento: ' + normalizePercentage(item.atingimento) + '%'
                                             }>
                                         </UserPointItem>
                                         </>
