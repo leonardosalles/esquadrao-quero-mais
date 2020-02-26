@@ -138,6 +138,10 @@ const HomeRegionalPage = ({info}) => {
                                     )
                                 })
                             }
+
+                            <br/>
+                            <span
+                                className={classes.smallFont}>{`Última Atualização: ${homeInfo.data[actualData].kpisRegiao.dtUltAtualizacao}`}</span>
                         </PaperCard>
 
                         <PaperCard>
@@ -229,6 +233,7 @@ const HomeRegionalPage = ({info}) => {
                                     )
                                 })
                             }
+
                         </PaperCard>
 
 
@@ -247,6 +252,7 @@ const HomeRegionalPage = ({info}) => {
                                                 index={index}
                                                 medal={false}
                                                 height={55}
+                                                customText={`Atingimento: ${normalizePercentage(item.atingimento)}%` }
                                                 username={item.nomeRegiao}
                                             />
                                         )

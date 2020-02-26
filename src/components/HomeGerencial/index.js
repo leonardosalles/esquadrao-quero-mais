@@ -58,6 +58,7 @@ const HomeGerencialPage = ({info}) => {
     const actualDataRank = filter === 'M' ? 'rankMensal' : filter === 'S' ? 'rankSemanal' : 'rankTrimestral'
     const actualDataVendedor = filter === 'M' ? 'metasPorVendedorMensal' : filter === 'S' ? 'metasPorVendedorSemanal' : 'metasPorVendedorTrimestral'
     const actualDataCaixa = filter === 'M' ? 'metasPorCaixaMensal' : filter === 'S' ? 'metasPorCaixaSemanal' : 'metasPorCaixaTrimestral'
+    const actualDataDtAtualizacao = filter === 'M' ? 'dtUltAtualizacaMensal' : filter === 'S' ? 'dtUltAtualizacaSemanal' : 'dtUltAtualizacaTrimestre'
 
     return (
         <>
@@ -165,6 +166,11 @@ const HomeGerencialPage = ({info}) => {
                                     )
                                 })
                             }
+
+                            <br/>
+                            <span
+                                className={classes.smallFont}>{`Última Atualização: ${homeInfo.data[actualDataDtAtualizacao]}`}</span>
+
                         </PaperCard>
 
                         <PaperCard>
@@ -300,8 +306,7 @@ const HomeGerencialPage = ({info}) => {
                                             height={80}
                                             username={item.nmFilial}
                                             customText={
-                                                'Rank Rede: ' + item.rankRede + ' | Rank Região: ' + item.rankRegiao +
-                                                ' | Atingimento: ' + normalizePercentage(item.atingimento) + '%'
+                                                `Atingimento: ${normalizePercentage(item.atingimento)}% Rank Rede: ${item.rankRede}`
                                             }>
                                         </UserPointItem>
                                         </>
